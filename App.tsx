@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Share2, Info, ChevronLeft, ChevronRight } from 'lucide-react';
 import PageContent from './components/PageContent';
@@ -80,56 +81,23 @@ const App: React.FC = () => {
   return (
     <div className="h-screen w-screen bg-stone-950 flex flex-col items-center justify-between p-4 overflow-hidden safe-area-inset">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-600/5 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-900/5 rounded-full blur-[120px]"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-amber-600/5 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-900/5 rounded-full blur-[100px]"></div>
       </div>
 
-      <header className="w-full flex justify-between items-center py-2 z-[100]">
+      <header className="w-full flex justify-between items-center py-2 z-50">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 border border-amber-600/40 flex items-center justify-center text-amber-500 font-serif text-lg bg-stone-900/50">E</div>
-          <div>
-            <h1 className="text-amber-500 font-serif text-sm tracking-[0.2em] uppercase leading-none mb-1">L'Éclat d'Or</h1>
-            <p className="text-[8px] text-stone-500 tracking-[0.3em] uppercase">Marrakech</p>
-          </div>
+          <div className="h-8 w-8 border border-amber-600/40 flex items-center justify-center text-amber-500 font-serif text-sm">E</div>
+          <h1 className="text-amber-500 font-serif text-xs tracking-widest uppercase">L'Éclat d'Or</h1>
         </div>
         <div className="flex gap-2">
-          <button className="p-2 text-stone-500 hover:text-amber-500 transition-colors"><Share2 size={20} /></button>
-          <button className="p-2 text-stone-500 hover:text-amber-500 transition-colors"><Info size={20} /></button>
+          <button className="p-2 text-stone-600 hover:text-amber-500 transition-colors"><Share2 size={18} /></button>
+          <button className="p-2 text-stone-600 hover:text-amber-500 transition-colors"><Info size={18} /></button>
         </div>
       </header>
 
       <main className="flex-1 w-full flex items-center justify-center relative z-20 overflow-visible">
-        <div className="absolute inset-0 z-[150] flex pointer-events-none">
-          <div 
-            className={`w-[25%] h-full pointer-events-auto cursor-pointer flex items-center justify-start pl-4 group transition-opacity ${currentPage === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-            onClick={(e) => { 
-              e.preventDefault();
-              e.stopPropagation(); 
-              handlePrev(); 
-            }}
-          >
-            <div className="w-12 h-12 rounded-full bg-stone-900/90 border border-amber-600/30 flex items-center justify-center text-amber-500 shadow-2xl group-hover:bg-amber-600 group-hover:text-stone-950 transition-all duration-300">
-              <ChevronLeft size={28} />
-            </div>
-          </div>
-
-          <div className="flex-1 h-full pointer-events-none" />
-
-          <div 
-            className={`w-[25%] h-full pointer-events-auto cursor-pointer flex items-center justify-end pr-4 group transition-opacity ${currentPage === totalLogicalPages - 1 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-            onClick={(e) => { 
-              e.preventDefault();
-              e.stopPropagation(); 
-              handleNext(); 
-            }}
-          >
-            <div className="w-12 h-12 rounded-full bg-stone-900/90 border border-amber-600/30 flex items-center justify-center text-amber-500 shadow-2xl group-hover:bg-amber-600 group-hover:text-stone-950 transition-all duration-300">
-              <ChevronRight size={28} />
-            </div>
-          </div>
-        </div>
-
-        <div className="book-viewport z-[50]">
+        <div className="book-viewport">
           <div 
             className="book-canvas"
             style={{ transform: canvasTranslation }}
@@ -152,24 +120,46 @@ const App: React.FC = () => {
             })}
           </div>
         </div>
+
+        {/* 
+          ZONES DE CLIC DE NAVIGATION :
+          Réduites à 8% pour libérer le contenu du menu.
+        */}
+        <div className="absolute inset-0 z-[40] flex pointer-events-none">
+          <div className="w-[8%] h-full pointer-events-auto cursor-w-resize" onClick={handlePrev} title="Précédent" />
+          <div className="flex-1 h-full pointer-events-none" />
+          <div className="w-[8%] h-full pointer-events-auto cursor-e-resize" onClick={handleNext} title="Suivant" />
+        </div>
       </main>
 
-      <footer className="w-full flex flex-col items-center gap-6 pb-10 z-[100]">
-        <div className="flex items-center justify-center gap-4">
-           {Array.from({ length: totalLogicalPages }).map((_, idx) => (
-              <button
+      <footer className="w-full flex flex-col items-center gap-6 pb-8 z-50">
+        <div className="flex items-center justify-between w-full max-w-xs px-4">
+          <button 
+            onClick={handlePrev}
+            disabled={currentPage === 0}
+            className={`flex items-center gap-2 text-[10px] uppercase tracking-widest transition-all ${currentPage === 0 ? 'opacity-0' : 'text-amber-600 active:scale-90'}`}
+          >
+            <ChevronLeft size={16} /> Précédent
+          </button>
+          
+          <div className="flex gap-1.5">
+            {Array.from({ length: totalLogicalPages }).map((_, idx) => (
+              <div
                 key={idx}
-                onClick={() => setCurrentPage(idx)}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  currentPage === idx ? 'w-8 bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'w-2 bg-stone-800 hover:bg-stone-600'
+                className={`h-1 rounded-full transition-all duration-300 ${
+                  currentPage === idx ? 'w-4 bg-amber-500' : 'w-1.5 bg-stone-800'
                 }`}
-                aria-label={`Aller à la page ${idx + 1}`}
               />
             ))}
-        </div>
-        
-        <div className="text-[10px] text-stone-600 tracking-[0.5em] uppercase font-light">
-          Page {currentPage + 1} sur {totalLogicalPages}
+          </div>
+
+          <button 
+            onClick={handleNext}
+            disabled={currentPage === totalLogicalPages - 1}
+            className={`flex items-center gap-2 text-[10px] uppercase tracking-widest transition-all ${currentPage === totalLogicalPages - 1 ? 'opacity-0' : 'text-amber-600 active:scale-90'}`}
+          >
+            Suivant <ChevronRight size={16} />
+          </button>
         </div>
       </footer>
 

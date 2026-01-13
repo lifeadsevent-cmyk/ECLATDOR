@@ -1,9 +1,9 @@
 
 import React, { useState, useMemo } from 'react';
 import { Share2, Info, ChevronLeft, ChevronRight } from 'lucide-react';
-import PageContent from './components/PageContent';
-import FlipSheet from './components/FlipSheet';
-import ExpandedImage from './components/ExpandedImage';
+import pagecontent from './components/pagecontent';
+import flipsheet from './components/flipsheet';
+import expandedimage from './components/expandedimage';
 import { MenuItem } from './types';
 import { MENU_ITEMS } from './constants';
 

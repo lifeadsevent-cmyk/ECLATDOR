@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Share2, Info, ChevronLeft, ChevronRight } from 'lucide-react';
 import PageContent from './components/PageContent';
@@ -80,7 +79,6 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen bg-stone-950 flex flex-col items-center justify-between p-4 overflow-hidden safe-area-inset">
-      {/* Background Decor */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-600/5 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-900/5 rounded-full blur-[120px]"></div>
@@ -101,9 +99,7 @@ const App: React.FC = () => {
       </header>
 
       <main className="flex-1 w-full flex items-center justify-center relative z-20 overflow-visible">
-        {/* Navigation Layers - High Z-Index for edge clicks */}
         <div className="absolute inset-0 z-[150] flex pointer-events-none">
-          {/* Previous Page Zone (Left 25%) */}
           <div 
             className={`w-[25%] h-full pointer-events-auto cursor-pointer flex items-center justify-start pl-4 group transition-opacity ${currentPage === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             onClick={(e) => { 
@@ -119,7 +115,6 @@ const App: React.FC = () => {
 
           <div className="flex-1 h-full pointer-events-none" />
 
-          {/* Next Page Zone (Right 25%) */}
           <div 
             className={`w-[25%] h-full pointer-events-auto cursor-pointer flex items-center justify-end pr-4 group transition-opacity ${currentPage === totalLogicalPages - 1 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             onClick={(e) => { 
@@ -134,7 +129,6 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* The 3D Book Container */}
         <div className="book-viewport z-[50]">
           <div 
             className="book-canvas"
@@ -179,7 +173,6 @@ const App: React.FC = () => {
         </div>
       </footer>
 
-      {/* Expanded Modal */}
       <ExpandedImage item={selectedItem} onClose={() => setSelectedItem(null)} />
     </div>
   );
